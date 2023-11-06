@@ -12,7 +12,10 @@ func main() {
 	//declareSliceWithNewKEyword()
 	//addToSlice()
 	//operationSonSlice()
-	copySlice()
+	//copySlice()
+	//loopThroughSlice()
+	var intSlice = []int{1, 2, 3, 4, 5, 6}
+	fmt.Println(checkIfItemExistsInSlice(intSlice, 3))
 
 }
 
@@ -86,4 +89,27 @@ func copySlice() {
 	intSliceBigger[3] = 90
 	intSliceBigger[4] = 89
 	fmt.Println("Slice intSliceBigger after adding elements:", intSliceBigger)
+}
+
+func loopThroughSlice() {
+	var intSlice = []int{1, 2, 3, 4, 5, 6}
+	fmt.Println("\n-------------Example 1 --------------\n")
+	fmt.Printf("The type  of the content is %v \n", reflect.ValueOf(intSlice).Kind())
+	for index, value := range intSlice {
+		fmt.Printf("The index is : %v and the value is : %v\n", index, value)
+	}
+}
+
+func checkIfItemExistsInSlice(slice interface{}, item interface{}) bool {
+	s := reflect.ValueOf(slice)
+	if s.Kind() != reflect.Slice {
+		panic("Invalide data-type it is slice")
+
+	}
+	for i := 0; i < s.Len(); i++ {
+		if s.Index(i).Interface() == item {
+			return true
+		}
+	}
+	return false
 }

@@ -1,9 +1,9 @@
-package main
+// package main
 
-import (
-	"fmt"
-	"reflect"
-)
+// import (
+// 	"fmt"
+// 	"reflect"
+// )
 
 func main() {
 	//slice()

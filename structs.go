@@ -1,11 +1,11 @@
-package main
+// package main
 
-import (
-	"encoding/json"
-	"fmt"
-	"reflect"
-	//"golang.org/x/tools/go/analysis/passes/assign"
-)
+// import (
+// 	"encoding/json"
+// 	"fmt"
+// 	"reflect"
+// 	//"golang.org/x/tools/go/analysis/passes/assign"
+// )
 
 func main() {
 	// structFundamntals()
@@ -286,7 +286,9 @@ func copyStructTypeUsingValueAndPointer() {
 	fmt.Println(r2)
 
 	r3 := &r1
-	r3.color = "Red"
+	r3.color = "Red" //uses reference of r1 so
+	//when this line executes it
+	//changes the color of r1 to red because r3 is a pointer to r1
 	fmt.Println(r3)
 	fmt.Println(r1)
 }

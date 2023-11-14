@@ -1,12 +1,12 @@
-package main
+// package main
 
-import (
-	"fmt"
-	"io/ioutil"
-	"log"
-	"net/http"
-	"sync"
-)
+// import (
+// 	"fmt"
+// 	"io/ioutil"
+// 	"log"
+// 	"net/http"
+// 	"sync"
+// )
 
 func main() {
 

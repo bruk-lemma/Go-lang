@@ -1,4 +1,4 @@
-package main
+//package main
 
 import "fmt"
 
@@ -20,7 +20,6 @@ func quickSort(array []int) []int {
 			array[left], array[i] = array[i], array[left]
 			left++
 		}
-
 	}
 	array[left], array[right] = array[right], array[left]
 	quickSort(array[:left])

@@ -1,12 +1,13 @@
-// package main
+package main
 
-// import (
-// 	"fmt"
-// 	"io/ioutil"
-// 	"log"
-// 	"net/http"
-// 	"sync"
-// )
+import (
+	"fmt"
+	"io/ioutil"
+	"log"
+	"net/http"
+	"sync"
+	"time"
+)
 
 func main() {
 
@@ -30,14 +31,31 @@ func main() {
 
 	//----------------------------------------------------
 
-	fmt.Println("Using chaneels to send values")
+	// fmt.Println("Using chaneels to send values")
 
-	nums := make(chan int) //declare unbuffred channeal
+	// nums := make(chan int) //declare unbuffred channeal
+	// wg.Add(1)
+	// go fetchValuesFromGoroutines("https://www.golangprograms.com", nums)
+	// fmt.Println(<-nums) //Read the values from unbufferd channeal
+	// wg.Wait()
+	// close(nums) //close the channel
+
+	//--------------------------------------------------------
+
+	var wg sync.WaitGroup
 	wg.Add(1)
-	go fetchValuesFromGoroutines("https://www.golangprograms.com", nums)
-	fmt.Println(<-nums) //Read the values from unbufferd channeal
+	command := make(chan string)
+	go play_and_pause_routine_execution(command, &wg)
+	time.Sleep(1 * time.Second)
+	command <- "Pause"
+
+	time.Sleep(1 * time.Second)
+	command <- "Play"
+
+	time.Sleep(1 * time.Second)
+	command <- "Stop"
+
 	wg.Wait()
-	close(nums) //close the channel
 
 }
 
@@ -97,5 +115,42 @@ func fetchValuesFromGoroutines(url string, nums chan int) {
 
 	//send value to the unbuffered channel
 	nums <- len(body)
+
+}
+
+var i int
+
+func work() {
+	time.Sleep(250 * time.Millisecond)
+	i++
+	fmt.Println(i)
+}
+
+func play_and_pause_routine_execution(command <-chan string, wg *sync.WaitGroup) {
+
+	//using channels we can play and pause execution of go routines
+	//a channel handles this communication by acting as condiut between go routines
+
+	defer wg.Done()
+	var status = "Play"
+	for {
+		select {
+		case cmd := <-command:
+			fmt.Println(cmd)
+			switch cmd {
+			case "Stop":
+				return
+
+			case "Pause":
+				status = "Pause"
+			default:
+				status = "Play"
+			}
+		default:
+			if status == "Play" {
+				work()
+			}
+		}
+	}
 
 }

@@ -87,8 +87,64 @@ func gracefull_shutdown_of_go_channels() {
 	}
 
 	//signal the worker to exit
-
 	done <- true
+	<-done
+}
+
+func recieve_data_from_multiple_channels_using_for_slecet() {
+	ch1 := make(chan int)
+	ch2 := make(chan int)
+
+	go func() {
+		for i := 0; i < 10; i++ {
+			ch1 <- i
+		}
+		close(ch1)
+	}()
+
+	go func() {
+		for i := 0; i < 10; i++ {
+			ch2 <- i
+		}
+		close(ch2)
+	}()
+
+	for {
+		select {
+		case x, ok := <-ch1:
+			if ok {
+				fmt.Println("Recieved from ch1:", x)
+			} else {
+				fmt.Println("ch1 closed")
+				//close(ch1)
+			}
+		case x, ok := <-ch2:
+			if ok {
+				fmt.Println("Recieved from ch2:", x)
+			} else {
+				fmt.Println("ch2 close")
+
+			}
+		}
+	}
+}
+
+func recieve_from_closed_channel() {
+	ch := make(chan int)
+	go func() {
+		ch <- 1
+		ch <- 2
+		close(ch)
+	}()
+
+	for {
+		i, ok := <-ch
+		if !ok {
+			fmt.Println("Channel closed")
+			break
+		}
+		fmt.Println("recieved", i)
+	}
 }
 
 func main() {
@@ -102,6 +158,9 @@ func main() {
 	// }
 
 	//fibbonacci_sequence_using_unbuffred_channeals()
-	gracefull_shutdown_of_go_channels()
+	//gracefull_shutdown_of_go_channels()
+
+	//recieve_data_from_multiple_channels_using_for_slecet()
+	recieve_from_closed_channel()
 
 }

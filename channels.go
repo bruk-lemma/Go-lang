@@ -5,20 +5,6 @@ import (
 	"reflect"
 )
 
-func main() {
-	create_channels()
-	ch := make(chan int, 10)                              //create buffred channel with a acapcity of 10
-	go fibonacci_sequence_using_buffered_channels(10, ch) //generate the first 10 fibbonaci nu,bers in a separate goroutine
-
-	//read values form the channel until its closed
-	for x := range ch {
-		fmt.Println(x)
-	}
-
-	fibbonacci_sequence_using_unbuffred_channeals()
-
-}
-
 func create_channels() {
 	var ch chan int
 	fmt.Println("The type of channels is", reflect.ValueOf(ch).Kind())
@@ -51,15 +37,71 @@ func fibonacci_sequence_using_buffered_channels(n int, ch chan<- int) {
 
 }
 
-func doSomrthing(ch chan int) {
+func doSomething(ch chan int) {
 	x := 42
 	ch <- x
 }
 
 func fibbonacci_sequence_using_unbuffred_channeals() {
 	ch := make(chan int) //create an unbuffred channel;
-	go doSomrthing(ch)   //launch a goroutine to do something with x
+	go doSomething(ch)   //launch a goroutine to do something with x
 
 	x := <-ch //recieve x form the channel
 	fmt.Println(x)
+}
+
+func worker(input chan int, output chan int, done chan bool) {
+	for {
+		select {
+		case n := <-input:
+			//do something on n
+			output <- n * 2
+
+		case <-done:
+			close(output)
+			return
+		}
+	}
+}
+
+func gracefull_shutdown_of_go_channels() {
+	input := make(chan int)
+	output := make(chan int)
+	done := make(chan bool)
+
+	go worker(input, output, done)
+
+	// send some value on the input channel
+	for i := 0; i < 10; i++ {
+		input <- i
+	}
+
+	//close the input chaneel form the output channel
+
+	close(input)
+
+	//recieve values form the output channel
+
+	for n := range output {
+		fmt.Println(n)
+	}
+
+	//signal the worker to exit
+
+	done <- true
+}
+
+func main() {
+	// create_channels()
+	// ch := make(chan int, 10)                              //create buffred channel with a acapcity of 10
+	// go fibonacci_sequence_using_buffered_channels(10, ch) //generate the first 10 fibbonaci nu,bers in a separate goroutine
+
+	// //read values form the channel until its closed
+	// for x := range ch {
+	// 	fmt.Println(x)
+	// }
+
+	//fibbonacci_sequence_using_unbuffred_channeals()
+	gracefull_shutdown_of_go_channels()
+
 }

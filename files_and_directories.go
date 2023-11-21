@@ -10,7 +10,8 @@ func main() {
 	// create_file()
 	// create_directory()
 	// rename_file()
-	copy_file_atspecified_location()
+	//copy_file_atspecified_location()
+	move_file_from_onelocation_toanother()
 
 }
 
@@ -66,5 +67,16 @@ func copy_file_atspecified_location() {
 		log.Fatal(err)
 	}
 	log.Printf("Copied %d bytes. ", bytesCopied)
+
+}
+
+func move_file_from_onelocation_toanother() {
+	newLocation := "/home/bruk/go/golang/newLocation/test.txt"
+	oldLocation := "/home/bruk/go/golang/oldLocation/test.txt"
+
+	err := os.Rename(oldLocation, newLocation)
+	if err != nil {
+		log.Fatal(err)
+	}
 
 }

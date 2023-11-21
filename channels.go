@@ -1,9 +1,9 @@
-package main
+// package main
 
-import (
-	"fmt"
-	"reflect"
-)
+// import (
+// 	"fmt"
+// 	"reflect"
+// )
 
 func create_channels() {
 	var ch chan int
@@ -191,6 +191,8 @@ func howtoiterate_over_channels() {
 	for value := range ch {
 		fmt.Println(value)
 	}
+
+	//using the select statement
 
 	ch1 := make(chan int)
 	ch2 := make(chan int)

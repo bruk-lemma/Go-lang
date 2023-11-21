@@ -8,6 +8,7 @@ import (
 func main() {
 	create_file()
 	create_directory()
+	rename_file()
 
 }
 
@@ -31,5 +32,15 @@ func create_directory() {
 		if errDir != nil {
 			log.Fatal(err)
 		}
+	}
+}
+
+func rename_file() {
+	oldName := "empty.txt"
+	newName := "correctTest.txt"
+
+	err := os.Rename(oldName, newName)
+	if err != nil {
+		log.Fatal(err)
 	}
 }

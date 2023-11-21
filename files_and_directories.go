@@ -19,6 +19,7 @@ func main() {
 	//metadata_of_file()
 	//delete_file()
 	readfile_character_by_character("buffertext.txt")
+	truncate_file()
 
 }
 
@@ -126,6 +127,15 @@ func readfile_character_by_character(filename string) {
 
 	for data.Scan() {
 		fmt.Print(data.Text())
+	}
+
+}
+
+func truncate_file() {
+	//truncate if file size exceeds 100kb
+	err := os.Truncate("correctTest.txt", 100)
+	if err != nil {
+		log.Fatal(err)
 	}
 
 }

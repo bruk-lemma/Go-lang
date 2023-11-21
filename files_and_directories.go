@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"io"
 	"log"
 	"os"
@@ -11,7 +12,8 @@ func main() {
 	// create_directory()
 	// rename_file()
 	//copy_file_atspecified_location()
-	move_file_from_onelocation_toanother()
+	//move_file_from_onelocation_toanother()
+	metadata_of_file()
 
 }
 
@@ -78,5 +80,22 @@ func move_file_from_onelocation_toanother() {
 	if err != nil {
 		log.Fatal(err)
 	}
+
+}
+
+func metadata_of_file() {
+	file, err := os.Create("empty.txt")
+	if err != nil {
+		log.Fatal(err)
+	}
+	fileStat, err := os.Stat(file.Name())
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Println("FIle name:", fileStat.Name())
+	fmt.Println("Size in bytes:", fileStat.Size())
+	fmt.Println("Permissions:", fileStat.Mode())
+	fmt.Println("Last modified:", fileStat.ModTime())
+	fmt.Println("Is Directory:", fileStat.IsDir())
 
 }

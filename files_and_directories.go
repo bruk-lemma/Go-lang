@@ -14,6 +14,7 @@ func main() {
 	//copy_file_atspecified_location()
 	//move_file_from_onelocation_toanother()
 	metadata_of_file()
+	delete_file()
 
 }
 
@@ -97,5 +98,14 @@ func metadata_of_file() {
 	fmt.Println("Permissions:", fileStat.Mode())
 	fmt.Println("Last modified:", fileStat.ModTime())
 	fmt.Println("Is Directory:", fileStat.IsDir())
+
+}
+
+func delete_file() {
+	err := os.Remove("empty.txt")
+
+	if err != nil {
+		log.Fatal(err)
+	}
 
 }

@@ -1,10 +1,13 @@
 package main
 
 import (
+	"bufio"
 	"fmt"
 	"io"
+	"io/ioutil"
 	"log"
 	"os"
+	"strings"
 )
 
 func main() {
@@ -13,8 +16,9 @@ func main() {
 	// rename_file()
 	//copy_file_atspecified_location()
 	//move_file_from_onelocation_toanother()
-	metadata_of_file()
-	delete_file()
+	//metadata_of_file()
+	//delete_file()
+	readfile_character_by_character("buffertext.txt")
 
 }
 
@@ -106,6 +110,22 @@ func delete_file() {
 
 	if err != nil {
 		log.Fatal(err)
+	}
+
+}
+
+func readfile_character_by_character(filename string) {
+	filebuffer, err := ioutil.ReadFile(filename)
+	if err != nil {
+		fmt.Println(err)
+		os.Exit(1)
+	}
+	inputData := string(filebuffer)
+	data := bufio.NewScanner(strings.NewReader(inputData))
+	data.Split(bufio.ScanRunes)
+
+	for data.Scan() {
+		fmt.Print(data.Text())
 	}
 
 }

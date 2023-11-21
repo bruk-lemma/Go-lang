@@ -1,14 +1,16 @@
 package main
 
 import (
+	"io"
 	"log"
 	"os"
 )
 
 func main() {
-	create_file()
-	create_directory()
-	rename_file()
+	// create_file()
+	// create_directory()
+	// rename_file()
+	copy_file_atspecified_location()
 
 }
 
@@ -43,4 +45,26 @@ func rename_file() {
 	if err != nil {
 		log.Fatal(err)
 	}
+}
+
+func copy_file_atspecified_location() {
+	sourceFile, err := os.Open("/home/bruk/go/golang/testfolder/testfile.txt")
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	defer sourceFile.Close()
+
+	//create new file
+	newFile, err := os.Create("/home/bruk/go/golang/testfolder/testfolderin/testfile.txt")
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer newFile.Close()
+	bytesCopied, err := io.Copy(newFile, sourceFile)
+	if err != nil {
+		log.Fatal(err)
+	}
+	log.Printf("Copied %d bytes. ", bytesCopied)
+
 }

@@ -147,6 +147,73 @@ func recieve_from_closed_channel() {
 	}
 }
 
+func accept_channel_as_parameter(ch chan<- int) {
+	ch <- 1
+	ch <- 2
+	ch <- 3
+	close(ch)
+}
+
+func use_func_that_accepts_chan_as_param() {
+	ch := make(chan int)
+	go accept_channel_as_parameter(ch)
+	for i := range ch {
+		fmt.Println(i)
+	}
+}
+
+func broadCastMessage_using_channel() {
+	ch := make(chan string, 1)
+
+	//start three goroutines taat read from the channel
+	for i := 0; i < 3; i++ {
+		go func() {
+			msg := <-ch
+			fmt.Println("Recieved message:", msg)
+		}()
+
+		//Broadcast a message to all the goroutines
+		ch <- "hello,world"
+	}
+
+}
+
+func howtoiterate_over_channels() {
+	//using for range loop
+	ch := make(chan int)
+	go func() {
+		ch <- 1
+		ch <- 2
+		ch <- 3
+		close(ch)
+	}()
+
+	for value := range ch {
+		fmt.Println(value)
+	}
+
+	ch1 := make(chan int)
+	ch2 := make(chan int)
+
+	go func() {
+		ch1 <- 1
+	}()
+
+	go func() {
+		ch2 <- 2
+	}()
+
+	for i := 0; i < 2; i++ {
+		select {
+		case val := <-ch1:
+			fmt.Println("Recieved from ch1", val)
+		case val := <-ch2:
+			fmt.Println("Recieved from ch2", val)
+		}
+	}
+
+}
+
 func main() {
 	// create_channels()
 	// ch := make(chan int, 10)                              //create buffred channel with a acapcity of 10
@@ -161,6 +228,9 @@ func main() {
 	//gracefull_shutdown_of_go_channels()
 
 	//recieve_data_from_multiple_channels_using_for_slecet()
-	recieve_from_closed_channel()
+	// recieve_from_closed_channel()
+	// use_func_that_accepts_chan_as_param()
+	// broadCastMessage_using_channel()
+	howtoiterate_over_channels()
 
 }

@@ -2,5 +2,9 @@
   {
     "Product_id": "ABC123",
     "Quantity": 25
+  },
+  {
+    "Product_id": "ABC123",
+    "Quantity": 25
   }
 ]

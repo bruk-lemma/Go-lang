@@ -39,4 +39,18 @@ func main() {
 		fmt.Println(mx.Host, mx.Pref)
 	}
 
+	//SRV service record
+	/*
+		The LookupSRV function tries to resolve an SRV query of the given service,
+		protocol, and domain name. The second parameter is "tcp" or "udp"*/
+	cname, srvs, err := net.LookupSRV("xmpp-server", "tcp", "golang.org")
+	if err != nil {
+		panic(err)
+	}
+	fmt.Printf("\n cname: %s \n\n", cname)
+
+	for _, srv := range srvs {
+		fmt.Printf("%v:%v:%d:%d\n", srv.Target, srv.Port, srv.Priority, srv.Weight)
+	}
+
 }

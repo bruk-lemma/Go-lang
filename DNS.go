@@ -43,7 +43,7 @@ func main() {
 	/*
 		The LookupSRV function tries to resolve an SRV query of the given service,
 		protocol, and domain name. The second parameter is "tcp" or "udp"*/
-	cname, srvs, err := net.LookupSRV("xmpp-server", "tcp", "golang.org")
+	cname, srvs, err := net.LookupSRV("xmpp-server", "tcp", "facebook.com")
 	if err != nil {
 		panic(err)
 	}
@@ -51,6 +51,17 @@ func main() {
 
 	for _, srv := range srvs {
 		fmt.Printf("%v:%v:%d:%d\n", srv.Target, srv.Port, srv.Priority, srv.Weight)
+	}
+
+	//TXT record
+	/*
+		This text record
+		stores information about the SPF that
+		can identify the authorized server to send email on behalf of your organization*/
+
+	txtrecords, _ := net.LookupTXT("facebook.com")
+	for _, txt := range txtrecords {
+		fmt.Println(txt)
 	}
 
 }

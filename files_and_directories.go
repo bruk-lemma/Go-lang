@@ -1,14 +1,14 @@
-package main
+// package main
 
-import (
-	"bufio"
-	"fmt"
-	"io"
-	"io/ioutil"
-	"log"
-	"os"
-	"strings"
-)
+// import (
+// 	"bufio"
+// 	"fmt"
+// 	"io"
+// 	"io/ioutil"
+// 	"log"
+// 	"os"
+// 	"strings"
+// )
 
 func main() {
 	// create_file()

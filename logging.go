@@ -1,9 +1,9 @@
-package main
+// package main
 
-import (
-	"log"
-	"net/smtp"
-)
+// import (
+// 	"log"
+// 	"net/smtp"
+// )
 
 func init() {
 	log.SetPrefix("Trace:")

@@ -30,4 +30,13 @@ func main() {
 	for _, ns := range nameserver {
 		fmt.Println(ns)
 	}
+
+	//MX records
+	//These records identify the servers that can exchange emails
+
+	mxrecords, _ := net.LookupMX("facebook.com")
+	for _, mx := range mxrecords {
+		fmt.Println(mx.Host, mx.Pref)
+	}
+
 }

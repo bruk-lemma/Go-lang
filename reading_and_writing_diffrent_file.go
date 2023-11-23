@@ -1,15 +1,15 @@
-package main
+// package main
 
-import (
-	"bufio"
-	"encoding/csv"
-	"encoding/json"
-	"encoding/xml"
-	"fmt"
-	"io/ioutil"
-	"log"
-	"os"
-)
+// import (
+// 	"bufio"
+// 	"encoding/csv"
+// 	"encoding/json"
+// 	"encoding/xml"
+// 	"fmt"
+// 	"io/ioutil"
+// 	"log"
+// 	"os"
+// )
 
 type Notes struct {
 	To      string `xml:"to"`

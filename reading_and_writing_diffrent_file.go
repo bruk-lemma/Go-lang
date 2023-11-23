@@ -1,11 +1,13 @@
 package main
 
 import (
+	"bufio"
 	"encoding/json"
 	"encoding/xml"
 	"fmt"
 	"io/ioutil"
 	"log"
+	"os"
 )
 
 type Notes struct {
@@ -29,7 +31,8 @@ func main() {
 
 	//write_xml_file()
 	//read_json_file()
-	write_json_file()
+	//write_json_file()
+	read_csv_file()
 }
 
 func write_xml_file() {
@@ -106,4 +109,26 @@ func write_json_file() {
 
 	file, _ := json.MarshalIndent(data, "", " ")
 	_ = ioutil.WriteFile("test.json", file, 0644)
+}
+
+func read_csv_file() {
+	file, err := os.Open("test.txt")
+	if err != nil {
+		log.Fatal("fialed opening file: %s", err)
+
+	}
+
+	scanner := bufio.NewScanner(file)
+	scanner.Split(bufio.ScanLines)
+	var txtlines []string
+
+	for scanner.Scan() {
+		txtlines = append(txtlines, scanner.Text())
+	}
+
+	file.Close()
+
+	for _, eachline := range txtlines {
+		fmt.Println(eachline)
+	}
 }

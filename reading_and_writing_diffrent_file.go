@@ -2,6 +2,7 @@ package main
 
 import (
 	"bufio"
+	"encoding/csv"
 	"encoding/json"
 	"encoding/xml"
 	"fmt"
@@ -32,7 +33,8 @@ func main() {
 	//write_xml_file()
 	//read_json_file()
 	//write_json_file()
-	read_csv_file()
+	//read_csv_file()
+	write_csv_file()
 }
 
 func write_xml_file() {
@@ -131,4 +133,26 @@ func read_csv_file() {
 	for _, eachline := range txtlines {
 		fmt.Println(eachline)
 	}
+}
+
+func write_csv_file() {
+	rows := [][]string{
+		{"Name", "City", "Language"},
+		{"Pinky", "London", "Python"},
+		{"Nicky", "Paris", "Golang"},
+		{"Micky", "Tokyo", "Php"},
+	}
+	csvfile, err := os.Create("test.csv")
+	if err != nil {
+		log.Fatal("failed creating file: %s", err)
+	}
+
+	csvwriter := csv.NewWriter(csvfile)
+
+	for _, row := range rows {
+		_ = csvwriter.Write(row)
+	}
+	csvwriter.Flush()
+	csvfile.Close()
+
 }
